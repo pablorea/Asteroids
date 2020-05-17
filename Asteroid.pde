@@ -1,0 +1,112 @@
+class Asteroid{
+ float radios;
+ float omegaLimite = .05;
+ PVector posicion;
+ PVector velocidad;
+ PVector rotacion;
+ float giro;
+ int col = 100;
+ PImage pics[];
+ PImage pic;
+ int escenario;
+ float amortiguado = 1;
+
+ 
+ public Asteroid(PVector pos, float radios_, PImage[] pics_, int escenario_){
+   radios  = radios_;
+   escenario = escenario_;
+   posicion = pos;
+   float angulo = random(2 * PI);
+   velocidad = new PVector(cos(angulo), sin(angulo));
+   velocidad.mult((50*50)/(radios*radios));
+   velocidad.mult(sqrt(escenario  + 2));
+   velocidad.mult(amortiguado);
+   angulo = random(2 * PI);
+   rotacion = new PVector(cos(angulo), sin(angulo));
+   giro = (float)(Math.random()*omegaLimite-omegaLimite/2);
+   int rnd = (int)(Math.random()*3);
+   pics = pics_;
+   pic = pics[rnd];
+ }
+ 
+ void disolver(ArrayList<Asteroid> asteroids){
+  if(radios <= 30){
+   asteroids.remove(this);
+  } else if (radios < 33){
+     for(int i = 0; i < 2; i++){
+      float angulo = random(2*PI);
+      PVector rand = new PVector(radios*sin(angulo), radios*cos(angulo));
+      rand.add(posicion);
+      asteroids.add(new Asteroid(rand, radios*.8, pics, escenario));
+    }
+    asteroids.remove(this);
+  } else {
+    for(int i = 0; i < 3; i++){
+      float angulo = random(2*PI);
+      PVector rand = new PVector(radios*sin(angulo), radios*cos(angulo));
+      rand.add(posicion);
+      asteroids.add(new Asteroid(rand, radios*.8, pics, escenario));
+    }
+    asteroids.remove(this);
+  }
+ }
+ 
+ void actualizar()
+ {
+   posicion.add(velocidad);
+   rotate2D(rotacion, giro);
+ }
+ 
+ void hacer()
+ {
+   fill(col);
+   circ(posicion.x, posicion.y);
+   if (posicion.x < radios)
+   {
+      circ(posicion.x + width, posicion.y);
+    } 
+    else if (posicion.x > width-radios)
+    {
+      circ( posicion.x-width, posicion.y);
+    }
+    
+    if (posicion.y < radios) 
+    {
+      circ(posicion.x, posicion.y + height); 
+    }
+    
+    else if (posicion.y > height-radios)
+    {
+      circ(posicion.x, posicion.y-height);
+    } 
+ }
+ 
+ void bordes(){
+  if (posicion.x < 0){ posicion.x = width;}
+    if (posicion.y < 0){posicion.y = height;}
+    if (posicion.x > width){posicion.x = 0;}
+    if (posicion.y > height){posicion.y = 0;} 
+ }
+ 
+ void circ(float x, float y)
+ {
+  pushMatrix();
+  translate(x,y);
+  rotate(T2D(rotacion)+PI/2); 
+  image(pic, -radios,-radios,radios*2, radios*2);
+  popMatrix();
+ }  
+
+float T2D(PVector pvect)
+{
+   return (float)(Math.atan2(pvect.y, pvect.x));  
+}
+
+void rotacion2D(PVector v, float theta) 
+{
+  float xTemp = v.x;
+  v.x = v.x*cos(theta) - v.y*sin(theta);
+  v.y = xTemp*sin(theta) + v.y*cos(theta);
+}
+ 
+}
