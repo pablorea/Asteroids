@@ -1,2 +1,4 @@
-# Asteroids
-A game developed while studying at high school
+# Asteroids 🚀
+
+## Playing 
+![Asteroids](assets/Asteroids-playing.gif?raw=true "Asteroids")
