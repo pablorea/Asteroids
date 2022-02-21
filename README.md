@@ -1,4 +1,4 @@
 # Asteroids 🚀
 
 ## Playing 
-![Asteroids](assets/Asteroids-playing.gif?raw=true "Asteroids")
+![Asteroids](assets/Asteroids.gif?raw=true "Asteroids")
