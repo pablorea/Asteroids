@@ -24,7 +24,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 For more information, please refer to <https://unlicense.org>
 */
 
-class Nave{
+class Nave{   
  PVector posicion;
  PVector velocidad;
  PVector acceleracion;
